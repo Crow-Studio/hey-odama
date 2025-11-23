@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "strict": true,
+    "moduleResolution": "bundler",
+    "skipLibCheck": true,
+    "lib": ["ESNext"],
+    "strictNullChecks": true,
+    "typeRoots": ["./node_modules/@types"],
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "./dist",
+    "rootDir": "."
+  },
+  "include": ["schema/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
