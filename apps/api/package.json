@@ -12,14 +12,25 @@
   "dependencies": {
     "@hono/node-server": "^1.19.6",
     "@hono/node-ws": "^1.2.0",
-    "hono": "^4.10.6"
+    "@hono/zod-openapi": "^1.1.5",
+    "@repo/db": "workspace:*",
+    "@t3-oss/env-core": "^0.13.8",
+    "hono": "^4.10.6",
+    "hono-pino": "^0.10.3",
+    "pino": "^10.1.0",
+    "pino-pretty": "^13.1.2",
+    "stoker": "^2.0.1"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@types/node": "^20.11.17",
+    "chalk": "^5.6.2",
+    "consola": "^3.4.2",
+    "dotenv": "^17.2.3",
     "tsc-alias": "^1.8.16",
     "tsup": "^8.5.1",
     "tsx": "^4.7.1",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "zod": "^4.1.12"
   }
 }
