@@ -10,16 +10,16 @@
     "clean": "rm -rf .turbo node_modules dist"
   },
   "dependencies": {
-    "@hono/node-server": "^1.19.6",
+    "@hono/node-server": "^1.19.7",
     "@hono/node-ws": "^1.2.0",
-    "hono": "^4.10.6"
+    "hono": "^4.11.3"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
-    "@types/node": "^20.11.17",
+    "@types/node": "^20.19.27",
     "tsc-alias": "^1.8.16",
     "tsup": "^8.5.1",
-    "tsx": "^4.7.1",
-    "typescript": "^5.8.3"
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
   }
 }
