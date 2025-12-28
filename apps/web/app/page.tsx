@@ -148,7 +148,7 @@ export default function Homepage() {
                   "h-14! flex-col items-center justify-center rounded-none text-base! font-semibold uppercase tracking-wide",
                   type === "primary"
                     ? "bg-brand flex w-full text-white hover:bg-orange-600 transition-all"
-                    : "max-w-sm:border-x-0! flex w-full border-x! border-y-0! border-[--border] bg-transparent! backdrop-blur-xl transition-colors duration-150 hover:bg-black/5! dark:border-[--dark-border] dark:hover:bg-white/5!"
+                    : "max-w-sm:border-x-0! flex w-full border-x! border-y-0! border-[--border] bg-transparent! backdrop-blur-xl transition-colors duration-150 hover:bg-black/5! dark:border-[--dark-border] dark:hover:bg-white/5!",
                 )}
                 href={href}
               >

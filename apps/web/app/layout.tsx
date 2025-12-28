@@ -20,7 +20,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${bricolageGrotesque.variable} antialiased`}
+      <body
+        className={`${bricolageGrotesque.variable} antialiased`}
         style={{ fontFamily: "var(--font-bricolage)" }}
       >
         {children}
