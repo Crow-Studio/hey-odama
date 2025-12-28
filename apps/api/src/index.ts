@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { serve } from "@hono/node-server";
-import app, { injectWebSocket } from "./app";
 import chalk from "chalk";
 import consola from "consola";
+import app, { injectWebSocket } from "./app";
 import { env } from "./env";
 
 const PORT = env.PORT;

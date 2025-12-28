@@ -31,12 +31,8 @@ export default function createApp() {
   // CORS configuration
   const allowedOrigins: Array<string | RegExp> =
     env.NODE_ENV === "production"
-      ? [
-          "https://hey-odama.onrender.com",
-        ]
-      : [
-          "http://localhost:3000",
-        ];
+      ? ["https://hey-odama.onrender.com"]
+      : ["http://localhost:3000"];
 
   app.use(
     "*",

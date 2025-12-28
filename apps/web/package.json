@@ -16,18 +16,11 @@
     "@repo/ui": "workspace:*",
     "@t3-oss/env-nextjs": "^0.13.8",
     "lucide-react": "^0.554.0",
-<<<<<<< HEAD
-    "motion": "^12.23.26",
-    "next": "^16.1.1",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3"
-=======
     "motion": "^12.23.24",
     "next": "^16.0.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "zod": "^4.1.12"
->>>>>>> 0eab795e3b201f1e6fb1c150f17ad16b2aef12c9
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
