@@ -3,7 +3,12 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
+    "build:api": "pnpm --filter @repo/api run build",
+    "build:web": "pnpm --filter @repo/web run build",
     "dev": "turbo run dev",
+    "start": "turbo run start",
+    "start:api": "pnpm --filter @repo/api run start",
+    "start:web": "pnpm --filter @repo/web run start",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",

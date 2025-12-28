@@ -113,7 +113,11 @@ export default function RoomPage() {
       if (!stream) {
         console.warn(
           `Received ontrack event from ${peerId} with no streams`,
+<<<<<<< HEAD
           e,
+=======
+          e
+>>>>>>> 0eab795e3b201f1e6fb1c150f17ad16b2aef12c9
         );
         return;
       }
@@ -174,6 +178,7 @@ export default function RoomPage() {
 
   const joinRoom = () => {
     setIsPreview(false);
+<<<<<<< HEAD
     const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
     const ws = new WebSocket(
       `${protocol}//${window.location.hostname}:4000/ws?room=${roomId}`,
@@ -323,6 +328,159 @@ export default function RoomPage() {
         videoRef={localVideoRef}
       />
     );
+=======
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    const wsUrl = apiUrl
+      ? apiUrl.replace(/^http/, "ws") + `/ws?room=${roomId}`
+      : `${window.location.protocol === "https:" ? "wss:" : "ws:"}//${window.location.host}/ws?room=${roomId}`;
+
+    const ws = new WebSocket(wsUrl);
+    wsRef.current = ws;
+
+    ws.onopen = () => setIsConnected(true);
+
+    ws.onmessage = async (e) => {
+      const data = JSON.parse(e.data);
+
+      if (data.type === "joined") {
+        myIdRef.current = data.clientId;
+        setPeers(data.peers);
+        // Connect to existing peers
+        data.peers.forEach((p: string) => createPeerConnection(p));
+      }
+
+      if (data.type === "peer-joined") {
+        setPeers((prev) => [...prev, data.peerId]);
+        createPeerConnection(data.peerId);
+        // Note: We don't createOffer here manually.
+        // createPeerConnection -> addTrack -> onnegotiationneeded -> createOffer
+      }
+
+      if (data.type === "peer-left") {
+        setPeers((prev) => prev.filter((p) => p !== data.peerId));
+        setRemoteStreams((prev) => {
+          const newStreams = { ...prev };
+          delete newStreams[data.peerId];
+          return newStreams;
+        });
+        pcRefs.current.get(data.peerId)?.close();
+        pcRefs.current.delete(data.peerId);
+      }
+
+      if (data.type === "offer") {
+        const pc = createPeerConnection(data.fromId);
+        await pc.setRemoteDescription(data.offer);
+        const answer = await pc.createAnswer();
+        await pc.setLocalDescription(answer);
+        send({ type: "answer", answer, targetId: data.fromId });
+      }
+
+      if (data.type === "answer") {
+        const pc = pcRefs.current.get(data.fromId);
+        await pc?.setRemoteDescription(data.answer);
+      }
+
+      if (data.type === "ice-candidate") {
+        const pc = pcRefs.current.get(data.fromId);
+        await pc?.addIceCandidate(data.candidate);
+      }
+    };
+  };
+
+  // --- ACTIONS ---
+
+  const toggleMic = () => {
+    if (localStreamRef.current) {
+      localStreamRef.current
+        .getAudioTracks()
+        .forEach((t) => (t.enabled = !micOn));
+      setMicOn(!micOn);
+    }
+  };
+
+  const toggleVideo = () => {
+    if (localStreamRef.current) {
+      localStreamRef.current
+        .getVideoTracks()
+        .forEach((t) => (t.enabled = !videoOn));
+      setVideoOn(!videoOn);
+    }
+  };
+
+  const toggleScreenShare = async () => {
+    if (screenSharing) {
+      // STOP SHARING
+      stopScreenShare();
+    } else {
+      // START SHARING
+      try {
+        const stream = await navigator.mediaDevices.getDisplayMedia({
+          video: true,
+          audio: false,
+        });
+        screenStreamRef.current = stream;
+        setScreenSharing(true);
+
+        // Add screen track to ALL existing peer connections
+        // This will trigger 'onnegotiationneeded' automatically
+        const videoTracks = stream.getVideoTracks();
+        const screenTrack = videoTracks[0];
+
+        if (screenTrack) {
+          pcRefs.current.forEach((pc) => {
+            pc.addTrack(screenTrack, stream);
+          });
+
+          // Handle user clicking "Stop Sharing" on browser UI
+          screenTrack.onended = () => stopScreenShare();
+        } else {
+          // No video track available — stop sharing and cleanup
+          stopScreenShare();
+        }
+      } catch (err) {
+        console.log("Cancelled screen share", err);
+      }
+    }
+  };
+
+  const stopScreenShare = () => {
+    if (!screenStreamRef.current) return;
+
+    const tracks = screenStreamRef.current.getTracks();
+    tracks.forEach((t) => t.stop());
+
+    // Remove tracks from PeerConnections
+    pcRefs.current.forEach((pc) => {
+      const senders = pc.getSenders();
+      const label = tracks[0]?.label;
+      const sender = label
+        ? senders.find(
+            (s) => s.track?.kind === "video" && s.track?.label === label
+          )
+        : undefined;
+      if (sender) pc.removeTrack(sender);
+      // Removing track triggers negotiation needed -> new offer -> remote removes stream
+    });
+
+    screenStreamRef.current = null;
+    setScreenSharing(false);
+  };
+
+  // --- RENDER ---
+
+  if (isTabDuplicate) return <DuplicateTabError />;
+  if (isPreview)
+    return (
+      <PreviewScreen
+        micOn={micOn}
+        videoOn={videoOn}
+        toggleMic={toggleMic}
+        toggleVideo={toggleVideo}
+        onJoin={joinRoom}
+        videoRef={localVideoRef}
+      />
+    );
+>>>>>>> 0eab795e3b201f1e6fb1c150f17ad16b2aef12c9
 
   return (
     <div className="min-h-screen bg-gray-950 text-white flex flex-col">

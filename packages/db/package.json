@@ -1,0 +1,25 @@
+{
+  "name": "@repo/db",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    "./schema/*": "./schema/*.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "check-types": "tsc --noEmit",
+    "build": "echo 'No build needed - exporting source TS'",
+    "clean": "rm -rf .turbo node_modules"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.44.7",
+    "nanoid": "^5.1.6",
+    "zod": "^4.1.12"
+  }
+}
